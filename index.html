@@ -1,376 +1,1050 @@
-import React, { useState, useEffect } from 'react';
-import { Menu, X, Mail, Instagram, Linkedin, ArrowRight, Sparkles, Zap } from 'lucide-react';
-
-const Portfolio = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [formSubmitted, setFormSubmitted] = useState(false);
-
-  // Projetos de exemplo - você pode adicionar os seus aqui
-  const projects = [
-    {
-      id: 1,
-      title: "Identidade Visual - Marca Premium",
-      category: "Branding",
-      image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop",
-      description: "Desenvolvimento completo de identidade visual"
-    },
-    {
-      id: 2,
-      title: "Logo & Papelaria",
-      category: "Design Gráfico",
-      image: "https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop",
-      description: "Criação de logo e materiais corporativos"
-    },
-    {
-      id: 3,
-      title: "Social Media",
-      category: "Digital",
-      image: "https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=600&fit=crop",
-      description: "Design para redes sociais e marketing"
-    },
-    {
-      id: 4,
-      title: "Packaging Design",
-      category: "Branding",
-      image: "https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=800&h=600&fit=crop",
-      description: "Embalagens criativas e funcionais"
-    },
-    {
-      id: 5,
-      title: "Identidade Gastronômica",
-      category: "Gastronomia",
-      image: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop",
-      description: "Branding para restaurantes e cafés"
-    },
-    {
-      id: 6,
-      title: "Tech Startup Branding",
-      category: "Tech",
-      image: "https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=600&fit=crop",
-      description: "Identidade visual moderna para startups"
-    }
-  ];
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 3000);
-    setFormData({ name: '', email: '', message: '' });
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ['home', 'about', 'projects', 'contact'];
-      const current = sections.find(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          return rect.top <= 100 && rect.bottom >= 100;
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VINATO - Portfólio de Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        return false;
-      });
-      if (current) setActiveSection(current);
-    };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
-  return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Borboletas decorativas flutuantes */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-20 left-10 text-purple-500 opacity-20 animate-pulse" style={{animation: 'float 6s ease-in-out infinite'}}>
-          🦋
-        </div>
-        <div className="absolute top-40 right-20 text-purple-400 opacity-15" style={{animation: 'float 8s ease-in-out infinite 2s'}}>
-          🦋
-        </div>
-        <div className="absolute bottom-32 left-1/4 text-purple-600 opacity-10" style={{animation: 'float 7s ease-in-out infinite 1s'}}>
-          🦋
-        </div>
-      </div>
-
-      <style>{`
+        /* Animações */
         @keyframes float {
-          0%, 100% { transform: translateY(0px) rotate(0deg); }
-          50% { transform: translateY(-20px) rotate(10deg); }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
         }
-      `}</style>
 
-      {/* Header/Navigation */}
-      <nav className="fixed top-0 w-full bg-black/80 backdrop-blur-lg z-50 border-b border-purple-900/30">
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-3xl font-bold bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-                VINATO
-              </span>
-              <span className="text-xs text-purple-300">Anna Vitória</span>
-            </div>
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.3; }
+        }
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex items-center gap-8">
-              <a href="#home" className={`hover:text-purple-400 transition ${activeSection === 'home' ? 'text-purple-400' : ''}`}>Início</a>
-              <a href="#about" className={`hover:text-purple-400 transition ${activeSection === 'about' ? 'text-purple-400' : ''}`}>Sobre</a>
-              <a href="#projects" className={`hover:text-purple-400 transition ${activeSection === 'projects' ? 'text-purple-400' : ''}`}>Projetos</a>
-              <a href="#contact" className={`hover:text-purple-400 transition ${activeSection === 'contact' ? 'text-purple-400' : ''}`}>Contato</a>
-            </div>
+        /* Borboletas decorativas */
+        .butterflies {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
 
-            {/* Mobile Menu Button */}
-            <button onClick={() => setMenuOpen(!menuOpen)} className="md:hidden text-purple-400">
-              {menuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+        .butterfly {
+            position: absolute;
+            font-size: 2rem;
+            color: #a855f7;
+        }
 
-          {/* Mobile Menu */}
-          {menuOpen && (
-            <div className="md:hidden mt-4 pb-4 flex flex-col gap-4">
-              <a href="#home" onClick={() => setMenuOpen(false)} className="hover:text-purple-400 transition">Início</a>
-              <a href="#about" onClick={() => setMenuOpen(false)} className="hover:text-purple-400 transition">Sobre</a>
-              <a href="#projects" onClick={() => setMenuOpen(false)} className="hover:text-purple-400 transition">Projetos</a>
-              <a href="#contact" onClick={() => setMenuOpen(false)} className="hover:text-purple-400 transition">Contato</a>
-            </div>
-          )}
-        </div>
-      </nav>
+        .butterfly-1 {
+            top: 5rem;
+            left: 2.5rem;
+            opacity: 0.2;
+            animation: float 6s ease-in-out infinite, pulse 3s ease-in-out infinite;
+        }
 
-      {/* Hero Section */}
-      <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-black"></div>
-        
-        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500/10 rounded-full border border-purple-500/30 mb-8">
-            <Sparkles className="text-purple-400" size={16} />
-            <span className="text-sm text-purple-300">Designer Gráfico & Identidade Visual</span>
-          </div>
-          
-          <h1 className="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-purple-500 to-purple-600 bg-clip-text text-transparent">
-            VINATO
-          </h1>
-          
-          <p className="text-xl md:text-2xl text-gray-300 mb-4">
-            Anna Vitória
-          </p>
-          
-          <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            Transformando ideias em identidades visuais marcantes.
-            <br />
-            <span className="text-purple-400 font-semibold flex items-center justify-center gap-2 mt-2">
-              <Zap size={20} /> Rapidez + Criatividade
-            </span>
-          </p>
-          
-          <div className="flex gap-4 justify-center flex-wrap">
-            <a href="#projects" className="px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg hover:from-purple-500 hover:to-purple-600 transition flex items-center gap-2 font-semibold">
-              Ver Projetos <ArrowRight size={20} />
-            </a>
-            <a href="#contact" className="px-8 py-4 border-2 border-purple-500 rounded-lg hover:bg-purple-500/10 transition font-semibold">
-              Entrar em Contato
-            </a>
-          </div>
-        </div>
-      </section>
+        .butterfly-2 {
+            top: 10rem;
+            right: 5rem;
+            opacity: 0.15;
+            animation: float 8s ease-in-out infinite 2s, pulse 4s ease-in-out infinite 1s;
+        }
 
-      {/* About Section */}
-      <section id="about" className="py-24 px-6 bg-gradient-to-b from-black to-purple-950/20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-            Sobre Mim
-          </h2>
-          
-          <div className="bg-purple-900/10 border border-purple-500/30 rounded-2xl p-8 md:p-12">
-            <p className="text-lg text-gray-300 mb-6">
-              Olá! Sou a <span className="text-purple-400 font-semibold">Anna Vitória</span>, conhecida como <span className="text-purple-400 font-semibold">VINATO</span> no mundo do design.
-            </p>
-            
-            <p className="text-lg text-gray-300 mb-6">
-              Especializada em criar identidades visuais que conectam marcas com seu público. Meu trabalho combina <span className="text-purple-400">criatividade</span>, <span className="text-purple-400">rapidez</span> e <span className="text-purple-400">qualidade estética</span> para entregar resultados que realmente fazem a diferença.
-            </p>
+        .butterfly-3 {
+            bottom: 8rem;
+            left: 25%;
+            opacity: 0.1;
+            animation: float 7s ease-in-out infinite 1s, pulse 3.5s ease-in-out infinite 0.5s;
+        }
 
-            <div className="grid md:grid-cols-3 gap-6 mt-12">
-              <div className="bg-purple-500/10 p-6 rounded-xl border border-purple-500/20">
-                <div className="text-3xl mb-3">⚡</div>
-                <h3 className="font-semibold text-purple-400 mb-2">Rapidez</h3>
-                <p className="text-sm text-gray-400">Entregas ágeis sem comprometer a qualidade</p>
-              </div>
-              
-              <div className="bg-purple-500/10 p-6 rounded-xl border border-purple-500/20">
-                <div className="text-3xl mb-3">✨</div>
-                <h3 className="font-semibold text-purple-400 mb-2">Estética</h3>
-                <p className="text-sm text-gray-400">Designs bonitos que encantam</p>
-              </div>
-              
-              <div className="bg-purple-500/10 p-6 rounded-xl border border-purple-500/20">
-                <div className="text-3xl mb-3">🎯</div>
-                <h3 className="font-semibold text-purple-400 mb-2">Versatilidade</h3>
-                <p className="text-sm text-gray-400">Trabalho com diversos nichos e estilos</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            z-index: 50;
+            border-bottom: 1px solid rgba(168, 85, 247, 0.3);
+        }
 
-      {/* Projects Section */}
-      <section id="projects" className="py-24 px-6">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-            Projetos
-          </h2>
-          <p className="text-center text-gray-400 mb-12">Alguns dos meus trabalhos recentes</p>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map((project) => (
-              <div key={project.id} className="group relative overflow-hidden rounded-xl bg-purple-900/10 border border-purple-500/30 hover:border-purple-500/60 transition-all duration-300">
-                <div className="aspect-video overflow-hidden">
-                  <img 
-                    src={project.image} 
-                    alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                </div>
-                
-                <div className="p-6">
-                  <span className="text-xs text-purple-400 font-semibold">{project.category}</span>
-                  <h3 className="text-xl font-bold mt-2 mb-2">{project.title}</h3>
-                  <p className="text-sm text-gray-400">{project.description}</p>
-                </div>
-                
-                <div className="absolute inset-0 bg-gradient-to-t from-purple-900/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <button className="text-white flex items-center gap-2 font-semibold">
-                    Ver mais <ArrowRight size={16} />
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
 
-      {/* Contact Section */}
-      <section id="contact" className="py-24 px-6 bg-gradient-to-b from-black to-purple-950/20">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 text-center bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
-            Vamos Trabalhar Juntos?
-          </h2>
-          <p className="text-center text-gray-400 mb-12">Entre em contato para discutir seu projeto</p>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {/* Contact Form */}
-            <div className="bg-purple-900/10 border border-purple-500/30 rounded-2xl p-8">
-              <h3 className="text-2xl font-bold mb-6">Envie uma mensagem</h3>
-              
-              {formSubmitted && (
-                <div className="mb-4 p-4 bg-purple-500/20 border border-purple-500/50 rounded-lg text-purple-300">
-                  Mensagem enviada com sucesso! ✨
-                </div>
-              )}
-              
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                  <label className="block text-sm mb-2 text-gray-300">Nome</label>
-                  <input 
-                    type="text" 
-                    required
-                    value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full px-4 py-3 bg-black/50 border border-purple-500/30 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                    placeholder="Seu nome"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm mb-2 text-gray-300">Email</label>
-                  <input 
-                    type="email" 
-                    required
-                    value={formData.email}
-                    onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full px-4 py-3 bg-black/50 border border-purple-500/30 rounded-lg focus:border-purple-500 focus:outline-none text-white"
-                    placeholder="seu@email.com"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm mb-2 text-gray-300">Mensagem</label>
-                  <textarea 
-                    required
-                    value={formData.message}
-                    onChange={(e) => setFormData({...formData, message: e.target.value})}
-                    rows="4"
-                    className="w-full px-4 py-3 bg-black/50 border border-purple-500/30 rounded-lg focus:border-purple-500 focus:outline-none text-white resize-none"
-                    placeholder="Conte-me sobre seu projeto..."
-                  ></textarea>
-                </div>
-                
-                <button 
-                  type="submit"
-                  className="w-full px-6 py-3 bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg hover:from-purple-500 hover:to-purple-600 transition font-semibold flex items-center justify-center gap-2"
-                >
-                  Enviar Mensagem <ArrowRight size={20} />
-                </button>
-              </form>
-            </div>
-            
-            {/* Social Links */}
-            <div className="space-y-6">
-              <div className="bg-purple-900/10 border border-purple-500/30 rounded-2xl p-8">
-                <h3 className="text-2xl font-bold mb-6">Redes Sociais</h3>
-                
-                <div className="space-y-4">
-                  <a href="#" className="flex items-center gap-4 p-4 bg-purple-500/10 rounded-lg hover:bg-purple-500/20 transition border border-purple-500/20 hover:border-purple-500/40">
-                    <Instagram className="text-purple-400" size={24} />
-                    <div>
-                      <div className="font-semibold">Instagram</div>
-                      <div className="text-sm text-gray-400">@vinato.design</div>
-                    </div>
-                  </a>
-                  
-                  <a href="#" className="flex items-center gap-4 p-4 bg-purple-500/10 rounded-lg hover:bg-purple-500/20 transition border border-purple-500/20 hover:border-purple-500/40">
-                    <Linkedin className="text-purple-400" size={24} />
-                    <div>
-                      <div className="font-semibold">LinkedIn</div>
-                      <div className="text-sm text-gray-400">Anna Vitória</div>
-                    </div>
-                  </a>
-                  
-                  <a href="mailto:contato@vinato.design" className="flex items-center gap-4 p-4 bg-purple-500/10 rounded-lg hover:bg-purple-500/20 transition border border-purple-500/20 hover:border-purple-500/40">
-                    <Mail className="text-purple-400" size={24} />
-                    <div>
-                      <div className="font-semibold">Email</div>
-                      <div className="text-sm text-gray-400">contato@vinato.design</div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-              
-              <div className="bg-gradient-to-br from-purple-900/30 to-purple-800/20 border border-purple-500/40 rounded-2xl p-8 text-center">
-                <div className="text-4xl mb-3">🦋</div>
-                <p className="text-purple-300">
-                  "Design é a arte de transformar ideias em realidade visual"
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
 
-      {/* Footer */}
-      <footer className="py-12 px-6 border-t border-purple-900/30">
-        <div className="max-w-7xl mx-auto text-center">
-          <div className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent mb-4">
-            VINATO
-          </div>
-          <p className="text-gray-400 mb-6">Anna Vitória - Designer Gráfico & Identidade Visual</p>
-          <p className="text-sm text-gray-500">
-            © 2024 VINATO. Todos os direitos reservados.
-          </p>
-        </div>
-      </footer>
+        .logo {
+            font-size: 1.875rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #c084fc, #a855f7, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .logo-subtitle {
+            font-size: 0.75rem;
+            color: #d8b4fe;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: #c084fc;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: #c084fc;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .mobile-menu a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            color: #c084fc;
+        }
+
+        /* Sections */
+        section {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 5rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom right, rgba(88, 28, 135, 0.2), #000, #000);
+        }
+
+        .hero-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 9999px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            margin-bottom: 2rem;
+            font-size: 0.875rem;
+            color: #d8b4fe;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, #c084fc, #a855f7, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #d1d5db;
+            margin-bottom: 1rem;
+        }
+
+        .hero-description {
+            font-size: 1.125rem;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+            max-width: 42rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-highlight {
+            color: #c084fc;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: linear-gradient(to right, #9333ea, #7e22ce);
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, #a855f7, #9333ea);
+        }
+
+        .btn-secondary {
+            padding: 1rem 2rem;
+            border: 2px solid #a855f7;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(to bottom, #000, rgba(88, 28, 135, 0.2));
+        }
+
+        .about-container {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: linear-gradient(to right, #c084fc, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-card {
+            background: rgba(88, 28, 135, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 1rem;
+            padding: 3rem;
+        }
+
+        .about-card p {
+            font-size: 1.125rem;
+            color: #d1d5db;
+            margin-bottom: 1.5rem;
+            line-height: 1.7;
+        }
+
+        .about-card .highlight {
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(168, 85, 247, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+        }
+
+        .feature-card .icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card h3 {
+            font-weight: 600;
+            color: #c084fc;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.875rem;
+            color: #9ca3af;
+            margin: 0;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 6rem 1.5rem;
+        }
+
+        .projects-container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+
+        .projects-description {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: rgba(88, 28, 135, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            border-color: rgba(168, 85, 247, 0.6);
+            transform: translateY(-4px);
+        }
+
+        .project-image {
+            aspect-ratio: 16/9;
+            overflow: hidden;
+        }
+
+        .project-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .project-card:hover .project-image img {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 1.5rem;
+        }
+
+        .project-category {
+            font-size: 0.75rem;
+            color: #c084fc;
+            font-weight: 600;
+        }
+
+        .project-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .project-description {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(88, 28, 135, 0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 1.5rem;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .view-more {
+            color: #fff;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 1.5rem;
+            background: linear-gradient(to bottom, #000, rgba(88, 28, 135, 0.2));
+        }
+
+        .contact-container {
+            max-width: 56rem;
+            margin: 0 auto;
+        }
+
+        .contact-description {
+            text-align: center;
+            color: #9ca3af;
+            margin-bottom: 3rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .contact-form {
+            background: rgba(88, 28, 135, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            color: #d1d5db;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 0.5rem;
+            color: #fff;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+        }
+
+        .form-group textarea {
+            resize: none;
+        }
+
+        .success-message {
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(168, 85, 247, 0.2);
+            border: 1px solid rgba(168, 85, 247, 0.5);
+            border-radius: 0.5rem;
+            color: #d8b4fe;
+            display: none;
+        }
+
+        .success-message.active {
+            display: block;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(to right, #9333ea, #7e22ce);
+            border: none;
+            border-radius: 0.5rem;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: background 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, #a855f7, #9333ea);
+        }
+
+        .social-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .social-card {
+            background: rgba(88, 28, 135, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 1rem;
+            padding: 2rem;
+        }
+
+        .social-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .social-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            border-radius: 0.5rem;
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.3s;
+        }
+
+        .social-item:hover {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: rgba(168, 85, 247, 0.4);
+        }
+
+        .social-icon {
+            color: #c084fc;
+            font-size: 1.5rem;
+        }
+
+        .social-info .name {
+            font-weight: 600;
+        }
+
+        .social-info .handle {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .quote-card {
+            background: linear-gradient(to bottom right, rgba(88, 28, 135, 0.3), rgba(109, 40, 217, 0.2));
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 1rem;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .quote-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .quote-card p {
+            color: #d8b4fe;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 1.5rem;
+            border-top: 1px solid rgba(88, 28, 135, 0.3);
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: linear-gradient(to right, #c084fc, #9333ea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .footer-description {
+            color: #9ca3af;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-copyright {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .about-card {
+                padding: 2rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Borboletas decorativas -->
+    <div class="butterflies">
+        <div class="butterfly butterfly-1">🦋</div>
+        <div class="butterfly butterfly-2">🦋</div>
+        <div class="butterfly butterfly-3">🦋</div>
     </div>
-  );
-};
 
-export default Portfolio;
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo-container">
+                <span class="logo">VINATO</span>
+                <span class="logo-subtitle">Anna Vitória</span>
+            </div>
+
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#about" class="nav-link">Sobre</a></li>
+                <li><a href="#projects" class="nav-link">Projetos</a></li>
+                <li><a href="#contact" class="nav-link">Contato</a></li>
+            </ul>
+
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                ☰
+            </button>
+
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="#home" class="mobile-link">Início</a>
+                <a href="#about" class="mobile-link">Sobre</a>
+                <a href="#projects" class="mobile-link">Projetos</a>
+                <a href="#contact" class="mobile-link">Contato</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="badge">
+                <span>✨</span>
+                <span>Designer Gráfico & Identidade Visual</span>
+            </div>
+
+            <h1>VINATO</h1>
+
+            <p class="hero-subtitle">Anna Vitória</p>
+
+            <div class="hero-description">
+                Transformando ideias em identidades visuais marcantes.
+                <div class="hero-highlight">
+                    <span>⚡</span>
+                    <span>Rapidez + Criatividade</span>
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <a href="#projects" class="btn-primary">
+                    Ver Projetos
+                    <span>→</span>
+                </a>
+                <a href="#contact" class="btn-secondary">
+                    Entrar em Contato
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <h2 class="section-title">Sobre Mim</h2>
+
+            <div class="about-card">
+                <p>
+                    Olá! Sou a <span class="highlight">Anna Vitória</span>, conhecida como <span class="highlight">VINATO</span> no mundo do design.
+                </p>
+
+                <p>
+                    Especializada em criar identidades visuais que conectam marcas com seu público. Meu trabalho combina <span class="highlight">criatividade</span>, <span class="highlight">rapidez</span> e <span class="highlight">qualidade estética</span> para entregar resultados que realmente fazem a diferença.
+                </p>
+
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <div class="icon">⚡</div>
+                        <h3>Rapidez</h3>
+                        <p>Entregas ágeis sem comprometer a qualidade</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">✨</div>
+                        <h3>Estética</h3>
+                        <p>Designs bonitos que encantam</p>
+                    </div>
+
+                    <div class="feature-card">
+                        <div class="icon">🎯</div>
+                        <h3>Versatilidade</h3>
+                        <p>Trabalho com diversos nichos e estilos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="projects-container">
+            <h2 class="section-title">Projetos</h2>
+            <p class="projects-description">Alguns dos meus trabalhos recentes</p>
+
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop" alt="Identidade Visual">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Branding</span>
+                        <h3 class="project-title">Identidade Visual - Marca Premium</h3>
+                        <p class="project-description">Desenvolvimento completo de identidade visual</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1626785774573-4b799315345d?w=800&h=600&fit=crop" alt="Logo & Papelaria">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Design Gráfico</span>
+                        <h3 class="project-title">Logo & Papelaria</h3>
+                        <p class="project-description">Criação de logo e materiais corporativos</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1611162616475-46b635cb6868?w=800&h=600&fit=crop" alt="Social Media">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Digital</span>
+                        <h3 class="project-title">Social Media</h3>
+                        <p class="project-description">Design para redes sociais e marketing</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1612198188060-c7c2a3b66eae?w=800&h=600&fit=crop" alt="Packaging Design">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Branding</span>
+                        <h3 class="project-title">Packaging Design</h3>
+                        <p class="project-description">Embalagens criativas e funcionais</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800&h=600&fit=crop" alt="Identidade Gastronômica">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Gastronomia</span>
+                        <h3 class="project-title">Identidade Gastronômica</h3>
+                        <p class="project-description">Branding para restaurantes e cafés</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-image">
+                        <img src="https://images.unsplash.com/photo-1559028012-481c04fa702d?w=800&h=600&fit=crop" alt="Tech Startup">
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category">Tech</span>
+                        <h3 class="project-title">Tech Startup Branding</h3>
+                        <p class="project-description">Identidade visual moderna para startups</p>
+                    </div>
+                    <div class="project-overlay">
+                        <span class="view-more">Ver mais →</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <h2 class="section-title">Vamos Trabalhar Juntos?</h2>
+            <p class="contact-description">Entre em contato para discutir seu projeto</p>
+
+            <div class="contact-grid">
+                <!-- Contact Form -->
+                <div class="contact-form">
+                    <h3 class="form-title">Envie uma mensagem</h3>
+
+                    <div class="success-message" id="successMessage">
+                        Mensagem enviada com sucesso! ✨
+                    </div>
+
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nome</label>
+                            <input type="text" id="name" name="name" placeholder="Seu nome" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" placeholder="seu@email.com" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Conte-me sobre seu projeto..." required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            Enviar Mensagem
+                            <span>→</span>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <div class="social-card">
+                        <h3 class="social-title">Redes Sociais</h3>
+
+                        <div class="social-items">
+                            <a href="#" class="social-item">
+                                <span class="social-icon">📷</span>
+                                <div class="social-info">
+                                    <div class="name">Instagram</div>
+                                    <div class="handle">@vinato.design</div>
+                                </div>
+                            </a>
+
+                            <a href="#" class="social-item">
+                                <span class="social-icon">💼</span>
+                                <div class="social-info">
+                                    <div class="name">LinkedIn</div>
+                                    <div class="handle">Anna Vitória</div>
+                                </div>
+                            </a>
+
+                            <a href="mailto:contato@vinato.design" class="social-item">
+                                <span class="social-icon">✉️</span>
+                                <div class="social-info">
+                                    <div class="name">Email</div>
+                                    <div class="handle">contato@vinato.design</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="quote-card">
+                        <div class="icon">🦋</div>
+                        <p>"Design é a arte de transformar ideias em realidade visual"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo">VINATO</div>
+        <p class="footer-description">Anna Vitória - Designer Gráfico & Identidade Visual</p>
+        <p class="footer-copyright">© 2024 VINATO. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            mobileMenuBtn.textContent = mobileMenu.classList.contains('active') ? '✕' : '☰';
+        });
+
+        // Close mobile menu when clicking on a link
+        const mobileLinks = document.querySelectorAll('.mobile-link');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                mobileMenuBtn.textContent = '☰';
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Active navigation link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                
+                if (window.pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Contact Form Submission
+        const contactForm = document.getElementById('contactForm');
+        const successMessage = document.getElementById('successMessage');
+
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show success message
+            successMessage.classList.add('active');
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                successMessage.classList.remove('active');
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
